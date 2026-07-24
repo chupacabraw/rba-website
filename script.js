@@ -12,20 +12,37 @@ nav.querySelectorAll('a').forEach(link => {
   });
 });
 
-// Scroll reveal
-const revealTargets = document.querySelectorAll('.section-head, .about-grid, .ticket-grid, .contact-grid, .hero-copy');
-revealTargets.forEach(el => el.classList.add('reveal'));
-
+// Scroll reveal (staggered within each section)
+const revealItems = document.querySelectorAll('.reveal-item');
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
+  entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      observer.unobserve(entry.target);
+      const el = entry.target;
+      const delay = Array.from(el.parentElement.children)
+        .filter(c => c.classList.contains('reveal-item'))
+        .indexOf(el) * 80;
+      setTimeout(() => el.classList.add('is-visible'), delay);
+      observer.unobserve(el);
     }
   });
 }, { threshold: 0.15 });
+revealItems.forEach(el => observer.observe(el));
 
-revealTargets.forEach(el => observer.observe(el));
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item => {
+  const btn = item.querySelector('.faq-q');
+  btn.addEventListener('click', () => {
+    const isOpen = item.classList.contains('is-open');
+    document.querySelectorAll('.faq-item.is-open').forEach(open => {
+      if (open !== item) {
+        open.classList.remove('is-open');
+        open.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      }
+    });
+    item.classList.toggle('is-open', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+  });
+});
 
 // Footer year
 document.getElementById('year').textContent = new Date().getFullYear();
