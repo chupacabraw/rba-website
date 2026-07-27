@@ -47,10 +47,48 @@ document.querySelectorAll('.faq-item').forEach(item => {
 // Footer year
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Contact form (placeholder — no backend yet in Tahap 1)
+// Contact form — kirim ke email lewat Web3Forms
+// PENTING: ganti nilai di bawah ini dengan Access Key gratis dari https://web3forms.com
+// (klik "Create Access Key", masukkan email rizqibarakahabadi@gmail.com, key dikirim ke email itu)
+const WEB3FORMS_ACCESS_KEY = "a21ba7d9-30da-4b7d-8183-81a994e4cbbc";
+
 const form = document.getElementById('contactForm');
 const formNote = document.getElementById('formNote');
-form.addEventListener('submit', (e) => {
+const submitBtn = form.querySelector('button[type="submit"]');
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  formNote.textContent = 'Form ini belum terhubung ke backend. Tahap berikutnya: hubungkan ke Cloudflare Worker atau layanan form pihak ketiga.';
+
+  if (WEB3FORMS_ACCESS_KEY === "a21ba7d9-30da-4b7d-8183-81a994e4cbbc") {
+    formNote.textContent = 'Form belum aktif — Access Key Web3Forms belum dipasang di script.js.';
+    return;
+  }
+
+  submitBtn.disabled = true;
+  formNote.textContent = 'Mengirim permintaan...';
+
+  const formData = new FormData(form);
+  formData.append('access_key', WEB3FORMS_ACCESS_KEY);
+  formData.append('subject', 'Permintaan Pengadaan Baru — Website PT Rizqi Barakah Abadi');
+  formData.append('from_name', 'Form Website RBA');
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: formData
+    });
+    const result = await response.json();
+
+    if (result.success) {
+      formNote.textContent = 'Terkirim! Kami akan segera menghubungi Anda.';
+      form.reset();
+    } else {
+      formNote.textContent = 'Gagal mengirim. Silakan coba lagi atau hubungi kami langsung lewat email.';
+    }
+  } catch (error) {
+    formNote.textContent = 'Terjadi kesalahan jaringan. Silakan coba lagi.';
+  } finally {
+    submitBtn.disabled = false;
+  }
 });
