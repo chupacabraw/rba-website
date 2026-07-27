@@ -59,7 +59,7 @@ const submitBtn = form.querySelector('button[type="submit"]');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  if (WEB3FORMS_ACCESS_KEY === "a21ba7d9-30da-4b7d-8183-81a994e4cbbc") {
+  if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY.length < 10) {
     formNote.textContent = 'Form belum aktif — Access Key Web3Forms belum dipasang di script.js.';
     return;
   }
