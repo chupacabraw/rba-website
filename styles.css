@@ -3,15 +3,15 @@
    ============================================ */
 :root {
   --paper: #FEFDFA;
-  --paper-tint: #EEF8F4;
-  --ink: #24332D;
-  --teal-deep: #1B4744;
-  --teal: #2E8880;
-  --teal-bright: #339990;
-  --teal-soft: #E1F4EF;
-  --gold: #D2A464;
-  --gold-light: #F0CE98;
-  --steel: #6E7D77;
+  --paper-tint: #FFDD9C;
+  --ink: #1A0500;
+  --teal-deep: ##6A1B0B;
+  --teal: #BD3014;
+  --teal-bright: #E73F1E;
+  --teal-soft: #FFBD8A;
+  --gold: #E73F1E;
+  --gold-light: #EB5E42;
+  --steel: #4D5653;
   --line: #E1EAE5;
 
   --font-display: 'Sora', sans-serif;
