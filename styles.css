@@ -147,7 +147,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center !important;
   gap: 8px;
   white-space: nowrap;
-  line-height: 1;
+  line-height: 2;
 }
 .btn-whatsapp .icon-whatsapp,
 .icon-whatsapp {
